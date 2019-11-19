@@ -29,4 +29,10 @@ public class Turma {
     public void setSemestre(String semestre) {
         this.semestre = semestre;
     }
+
+
+    @Override
+    public String toString() {
+        return ano +"/" + semestre;
+    }
 }

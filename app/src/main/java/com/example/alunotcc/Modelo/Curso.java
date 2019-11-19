@@ -1,5 +1,7 @@
 package com.example.alunotcc.Modelo;
 
+import androidx.annotation.NonNull;
+
 public class Curso {
 
     private String id;
@@ -20,5 +22,12 @@ public class Curso {
 
     public void setCurso(String curso) {
         this.curso = curso;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return curso;
     }
 }
