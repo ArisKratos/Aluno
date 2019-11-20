@@ -72,45 +72,44 @@ public class Aluninho extends AppCompatActivity {
 
 
         aliasBtnSalvarCursos.setOnClickListener(new View.OnClickListener() {
-     @Override
-     public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
+                if(aliasSpinnerTurma.getSelectedItem() != null){
 
-         String uid = UUID.randomUUID().toString();
-         String token = FirebaseInstanceId.getInstance().getToken();
+                Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
+                Turma turma = (Turma) aliasSpinnerTurma.getSelectedItem();
 
+                String uid = UUID.randomUUID().toString();
+                String token = FirebaseInstanceId.getInstance().getToken();
 
+                Aluno aluno = new Aluno();
+                aluno.setId(uid);
+                aluno.setToken(token);
 
-      /*  Curso curso = new Curso();
-         curso.setId(uid);
-         curso.setCurso(nomeCurso);
-         FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
-                 .set(curso)
-                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                     @Override
-                     public void onSuccess(Void v) {
+                FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
+                        .document(turma.getId()).collection("alunos").document(aluno.getId())
+                        .set(aluno)
+                        .addOnSuccessListener(new OnSuccessListener <Void>() {
+                            @Override
+                            public void onSuccess(Void v) {
 
-                         // Log.i ("Teste \n", documentReference.getId());
+                                // Log.i ("Teste \n", documentReference.getId());
 
-                         Intent intent = new Intent(ManterCurso.this, Listar_Curso.class);
-                         startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i("Teste \n", e.getMessage());
+                            }
+                        });}
+                else {
+                    Toast.makeText(getApplicationContext(), "Escolha uma turma antes",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-                     }
-                 }).addOnFailureListener(new OnFailureListener() {
-             @Override
-             public void onFailure(@NonNull Exception e) {
-                 Log.i("Teste \n", e.getMessage());
-             }
-         });
-     }
-
-     Aluno aluno = new Aluno();
-
-*/
-     }
-
-
- });
 
 
  aliasBtnAdd.setOnClickListener(new View.OnClickListener() {
