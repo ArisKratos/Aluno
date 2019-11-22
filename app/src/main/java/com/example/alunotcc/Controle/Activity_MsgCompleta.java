@@ -6,11 +6,12 @@ import android.os.Bundle;
 
 import com.example.alunotcc.R;
 
-public class AlunoConfirmadoActivity extends AppCompatActivity {
+public class Activity_MsgCompleta extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aluno_confirmado);
+        setContentView(R.layout.activity_msg_completa);
     }
+
 }

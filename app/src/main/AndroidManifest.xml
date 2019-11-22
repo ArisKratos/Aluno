@@ -9,16 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controle.Aluninho">
+        <activity android:name=".activity_list_cursosConf"></activity>
+        <activity android:name=".Controle.Activity_MsgCompleta" />
+        <activity android:name=".Controle.Activity_ListMsg" />
+        <activity android:name=".Controle.Activity_aluno">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controle.AlunoConfirmadoActivity" />
+        <activity android:name=".Controle.Activity_AlunoConfirmado" />
+
         <service
-            android:name=".java.MyFirebaseMessagingService"
+            android:name=".Controle.FCMService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

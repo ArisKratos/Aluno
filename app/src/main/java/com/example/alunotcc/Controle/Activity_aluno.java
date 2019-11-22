@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Aluninho extends AppCompatActivity {
+public class Activity_aluno extends AppCompatActivity {
 
     private Spinner aliasSpinnerCurso;
     private Spinner aliasSpinnerTurma;
