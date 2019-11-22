@@ -36,6 +36,8 @@ public class Activity_aluno extends AppCompatActivity {
     private Spinner aliasSpinnerCurso;
     private Spinner aliasSpinnerTurma;
     private List<Turma> turmas;
+    private String UID;
+    private String token;
     private Button aliasBtnSeeTurmas;
     private EditText aliasAnoTurma;
     private ListView aliasListCursoAdd;
@@ -70,6 +72,8 @@ public class Activity_aluno extends AppCompatActivity {
 
 
 
+        UID = UUID.randomUUID().toString();
+
 
         aliasBtnSalvarCursos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +84,10 @@ public class Activity_aluno extends AppCompatActivity {
                 Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
                 Turma turma = (Turma) aliasSpinnerTurma.getSelectedItem();
 
-                String uid = UUID.randomUUID().toString();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                token = FirebaseInstanceId.getInstance().getToken();
 
                 Aluno aluno = new Aluno();
-                aluno.setId(uid);
+                aluno.setId(UID);
                 aluno.setToken(token);
 
                 FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
@@ -103,11 +106,30 @@ public class Activity_aluno extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.i("Teste \n", e.getMessage());
                             }
-                        });}
-                else {
-                    Toast.makeText(getApplicationContext(), "Escolha uma turma antes",Toast.LENGTH_LONG).show();
+                        });
+
+                FirebaseFirestore.getInstance().collection("alunos").document(aluno.getToken()).collection("cursos")
+                        .document(curso.getId()).collection("turmas").document(turma.getId()).
+                        set(turma)
+                        .addOnSuccessListener(new OnSuccessListener <Void>() {
+                            @Override
+                            public void onSuccess(Void v) {
+
+                                // Log.i ("Teste \n", documentReference.getId());
+
+                              //  Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("Teste \n", e.getMessage());
+                    }
+
+                });}
+                else{
+                    Toast.makeText(getApplicationContext(), "escolha uma turmas antes", Toast.LENGTH_SHORT).show();
                 }
-            }
+              }
         });
 
 

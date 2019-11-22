@@ -12,5 +12,7 @@ public class Activity_AlunoConfirmado extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aluno_confirmado);
+
+
     }
 }

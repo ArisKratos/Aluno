@@ -22,6 +22,7 @@ public class MeuViewHolderCurso extends  RecyclerView.ViewHolder{
 
     public MeuViewHolderCurso(View view) {
         super(view);
+
         curso = (TextView)
                 view.findViewById(R.id.nome_CursoConf);
 
@@ -32,7 +33,7 @@ public class MeuViewHolderCurso extends  RecyclerView.ViewHolder{
                 view.findViewById(R.id.editBtnNotification);
 
         turma= (TextView)
-                view.findViewById(R.id.turmaMsg);
+                view.findViewById(R.id.MsgHora);
 
 
         // itemView.setOnClickListener(this);

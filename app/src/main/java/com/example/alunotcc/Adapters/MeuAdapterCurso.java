@@ -16,20 +16,21 @@ import com.example.alunotcc.R;
 import java.util.List;
 
 public class MeuAdapterCurso {
-    private List <Curso> cursos;
-    private List <Turma> turmas;
+    private List<Curso> cursos;
+    private List<Turma> turmas;
     public Context context;
     private View.OnClickListener listener;
 
-    public MeuAdapterCurso(List <Turma> turmas, List <Curso> cursos, Context context) {
+    public MeuAdapterCurso(List<Turma> turmas, List<Curso> cursos, Context context) {
 
         this.cursos = cursos;
         this.turmas = turmas;
         this.context = context;
-    }
+    }}
 
 
-    @NonNull
+  /*  @NonNull
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -38,12 +39,15 @@ public class MeuAdapterCurso {
 
         MeuViewHolderMsg holder = new MeuViewHolderMsg(view);
 
+
         view.setOnClickListener(this);
 
         return holder;
     }
 
-    @Override
+
+   /* @Override
+
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
 
         MeuViewHolderMsg holder = (MeuViewHolderMsg) viewHolder;
@@ -79,7 +83,7 @@ public class MeuAdapterCurso {
         });
     }*/
 
-    }
+  /*  }
     @Override
     public int getItemCount() {
 
@@ -96,4 +100,4 @@ public class MeuAdapterCurso {
         }
 
     }
-}
+}*/

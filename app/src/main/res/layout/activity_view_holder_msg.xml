@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/nome_Prof"
@@ -15,11 +17,11 @@
         android:paddingLeft="30dp"
         android:paddingTop="3dp"
         android:text="Marcelo"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/mensagem_Prof"
@@ -31,47 +33,50 @@
         app:layout_constraintBottom_toBottomOf="@+id/nome_Prof"
         app:layout_constraintEnd_toEndOf="@+id/nome_Prof"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/nome_Prof" />
+        app:layout_constraintStart_toStartOf="@+id/nome_Prof"/>
 
     <TextView
-        android:id="@+id/turmaMsg"
+        android:id="@+id/MsgHora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:text="2000/2"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:text="13:30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textAux2"
-        app:layout_constraintTop_toBottomOf="@+id/nome_Prof" />
+        app:layout_constraintTop_toBottomOf="@+id/nome_Prof"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textAux"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:text="Para:"
+        android:text="Hora:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toStartOf="@+id/turmaMsg"
+        app:layout_constraintEnd_toStartOf="@+id/MsgHora"
         app:layout_constraintTop_toBottomOf="@+id/nome_Prof" />
+
 
     <TextView
         android:id="@+id/textAux2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
         android:text="Data:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dataMsg"
-        app:layout_constraintTop_toBottomOf="@+id/nome_Prof" />
+        app:layout_constraintTop_toBottomOf="@+id/nome_Prof"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/dataMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="124dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginRight="104dp"
         android:text="12/10/19"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nome_Prof"
         tools:text="@tools:sample/date/mmddyy" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_list_cursosConf"></activity>
+
         <activity android:name=".Controle.Activity_MsgCompleta" />
         <activity android:name=".Controle.Activity_ListMsg" />
         <activity android:name=".Controle.Activity_aluno">

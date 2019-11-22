@@ -28,7 +28,7 @@ public class MeuViewHolderMsg extends RecyclerView.ViewHolder {
                     view.findViewById(R.id.dataMsg);
 
             turma= (TextView)
-                    view.findViewById(R.id.turmaMsg);
+                    view.findViewById(R.id.MsgHora);
 
 
             // itemView.setOnClickListener(this);
