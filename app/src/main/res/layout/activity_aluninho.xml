@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/listCursoAdd"
+        android:id="@+id/listTurmaAdd"
         android:layout_width="360dp"
         android:layout_height="266dp"
         android:layout_marginStart="10dp"
