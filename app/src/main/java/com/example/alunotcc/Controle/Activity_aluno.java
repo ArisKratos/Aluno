@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Activity_aluno extends AppCompatActivity {
+public class Activity_aluno extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
 
     private Spinner aliasSpinnerCurso;
     private Spinner aliasSpinnerTurma;
@@ -51,17 +53,22 @@ public class Activity_aluno extends AppCompatActivity {
 
         aliasSpinnerCurso = findViewById(R.id.spinnerCursos);
         aliasSpinnerTurma = findViewById(R.id.spinnerTurmas);
+
         aliasBtnSalvarCursos = findViewById(R.id.btnSalvarCursos);
+        aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
         aliasBtnAdd = findViewById(R.id.btnAddCurso);
         aliasListTurmaAdd = findViewById(R.id.listTurmaAdd);
-        aliasBtnSeeTurmas = findViewById(R.id.editBtnSeeTurmas);
+
+        aliasSpinnerCurso.setOnItemSelectedListener(this);
 
         cursos = new ArrayList<Curso>();
         turmas = new ArrayList<Turma>();
 
-        final ArrayList cursosConf = new ArrayList();
-        
+
         carregarSpinnerCurso();
+
+
+
 
         UID = UUID.randomUUID().toString();
 
@@ -70,77 +77,77 @@ public class Activity_aluno extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-              }
+            }
         });
-
-     aliasBtnAdd.setOnClickListener(new View.OnClickListener() {
-     @Override
-     public void onClick(View view) {
-
-         if(aliasSpinnerTurma.getSelectedItem() != null){
-
-             Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
-             Turma turma = (Turma) aliasSpinnerTurma.getSelectedItem();
-
-             token = FirebaseInstanceId.getInstance().getToken();
-
-             Aluno aluno = new Aluno();
-             aluno.setId(UID);
-             aluno.setToken(token);
-
-             FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
-                     .document(turma.getId()).collection("alunos").document(aluno.getId())
-                     .set(aluno)
-                     .addOnSuccessListener(new OnSuccessListener <Void>() {
-                         @Override
-                         public void onSuccess(Void v) {
-
-                             // Log.i ("Teste \n", documentReference.getId());
-
-                             Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
-                         }
-                     }).addOnFailureListener(new OnFailureListener() {
-                 @Override
-                 public void onFailure(@NonNull Exception e) {
-                     Log.i("Teste \n", e.getMessage());
-                 }
-             });
-
-             FirebaseFirestore.getInstance().collection("alunos").document(aluno.getToken()).collection("cursos")
-                     .document(curso.getId()).collection("turmas").document(turma.getId()).
-                     set(turma)
-                     .addOnSuccessListener(new OnSuccessListener <Void>() {
-                         @Override
-                         public void onSuccess(Void v) {
-
-                             // Log.i ("Teste \n", documentReference.getId());
-
-                             //  Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
-                         }
-                     }).addOnFailureListener(new OnFailureListener() {
-                 @Override
-                 public void onFailure(@NonNull Exception e) {
-                     Log.i("Teste \n", e.getMessage());
-                 }
-
-             });}
-
-         else{
-             Toast.makeText(getApplicationContext(), "escolha uma turmas antes", Toast.LENGTH_SHORT).show();
-         }
-         carregarListTurmas();
-     }
-   });
 
         aliasBtnSeeTurmas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              carregarSpinnerTurma();
+
+                carregarListTurmas();
             }
         });
-    }
 
+
+        aliasBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (aliasSpinnerTurma.getSelectedItem() != null) {
+
+                    Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
+                    Turma turma = (Turma) aliasSpinnerTurma.getSelectedItem();
+
+                    token = FirebaseInstanceId.getInstance().getToken();
+
+                    Aluno aluno = new Aluno();
+                    aluno.setId(UID);
+                    aluno.setToken(token);
+
+                    FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
+                            .document(turma.getId()).collection("alunos").document(aluno.getId())
+                            .set(aluno)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void v) {
+
+                                    // Log.i ("Teste \n", documentReference.getId());
+
+                                    Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("Teste \n", e.getMessage());
+                        }
+                    });
+
+                    FirebaseFirestore.getInstance().collection("alunos").document(aluno.getToken()).collection("cursos")
+                            .document(curso.getId()).collection("turmas").document(turma.getId()).
+                            set(turma)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void v) {
+
+                                    // Log.i ("Teste \n", documentReference.getId());
+
+                                    //  Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("Teste \n", e.getMessage());
+                        }
+
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "escolha uma turmas antes", Toast.LENGTH_SHORT).show();
+                }
+                carregarListTurmas();
+            }
+        });
+
+    }
   public void carregarSpinnerCurso() {
         FirebaseFirestore.getInstance().collection("cursos")
                 .get()
@@ -177,13 +184,16 @@ public class Activity_aluno extends AppCompatActivity {
 
     public  void carregarListTurmas(){
 
+        token = FirebaseInstanceId.getInstance().getToken();
 
 
-        // carregar lista que o aluno escolheu (caminho do aluno)
+      final Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
 
-        Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
+        Toast.makeText(this, "" + curso.getId(), Toast.LENGTH_SHORT).show();
 
-        FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
+
+        FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
+                .document(curso.getId()).collection("turmas")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
                     @Override
@@ -198,12 +208,14 @@ public class Activity_aluno extends AppCompatActivity {
                                 String id = document.getId();
                                 String ano = document.getString("ano");
                                 String semestre = document.getString("semestre");
+                                String curso = document.getString("curso");
 
                                 Turma u = new Turma();
 
                                 u.setId(id);
                                 u.setAno(ano);
                                 u.setSemestre(semestre);
+                                u.setCurso(curso);
 
 
                                 turmas.add(u);
@@ -224,7 +236,7 @@ public class Activity_aluno extends AppCompatActivity {
 
     public void carregarSpinnerTurma(){
 
-        Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
+        final Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
 
 
         FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas")
@@ -237,16 +249,19 @@ public class Activity_aluno extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
 
 
-                    // nao sei pq ele nao carrega a lista!!!
+
                     String id = document.getId();
                     String ano = document.getString("ano");
                     String semestre = document.getString("semestre");
+                    String curso = document.getString("curso");
 
                     Turma u = new Turma();
 
                     u.setId(id);
                     u.setAno(ano);
                     u.setSemestre(semestre);
+                    u.setCurso(curso);
+
 
 
                     turmas.add(u);
@@ -265,6 +280,24 @@ public class Activity_aluno extends AppCompatActivity {
                     }
 
                 });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String item = adapterView.getItemAtPosition(i).toString();
+
+        Toast.makeText(adapterView.getContext(), "selecionou: " + item ,Toast.LENGTH_SHORT).show();
+
+        carregarSpinnerTurma();
+
+
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
 
