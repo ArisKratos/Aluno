@@ -57,12 +57,12 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aluninho);
 
-        aliasSpinnerCurso = findViewById(R.id.spinnerCursos);
-        aliasSpinnerTurma = findViewById(R.id.spinnerTurmas);
+        aliasSpinnerCurso = findViewById(R.id.spinnerCursosConf);
+        aliasSpinnerTurma = findViewById(R.id.spinnerTurmasConf);
 
 
         aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
-        aliasBtnAdd = findViewById(R.id.btnAddCurso);
+        aliasBtnAdd = findViewById(R.id.btnSeeMensagens);
         aliasListTurmaAdd = findViewById(R.id.listTurmaAdd);
 
         aliasSpinnerCurso.setOnItemSelectedListener(this);
@@ -165,6 +165,8 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
                             Log.i("Teste \n", e.getMessage());
                         }
                     });
+
+                   // FirebaseFirestore.getInstance().collection("alunos").document(token).set(aluno)
 
                     FirebaseFirestore.getInstance().collection("alunos").document(aluno.getToken()).collection("cursos")
                             .document(curso.getId()).collection("turmas").document(turma.getId()).
