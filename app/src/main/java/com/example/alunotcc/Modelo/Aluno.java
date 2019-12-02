@@ -5,6 +5,10 @@ public class Aluno {
     private String id;
     private String token;
 
+
+
+    private  boolean logado;
+
     public String getId() {
         return id;
     }
@@ -19,5 +23,12 @@ public class Aluno {
 
     public void setToken(String token) {
         this.token = token;
+    }
+    public boolean isLogado() {
+        return logado;
+    }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
     }
 }

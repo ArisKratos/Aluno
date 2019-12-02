@@ -6,11 +6,13 @@ import android.os.Bundle;
 
 import com.example.alunotcc.R;
 
-public class Activity_ListMsg extends AppCompatActivity {
+public class Activity_Mensagens extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_msg);
+        setContentView(R.layout.activity_mensagens);
+
+
     }
 }

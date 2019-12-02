@@ -8,7 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,11 +42,10 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
     private List<Turma> turmas;
     private List<Turma> turmasSpn;
     private AlertDialog alerta;
-    private boolean saveUser;
+    private boolean alunoLogado;
     private String UID;
     private String token;
     private Button aliasBtnSeeTurmas;
-    private Button aliasBtnSalvarCursos;
     private Button aliasBtnAdd;
     private List<Curso> cursos;
     private ListView aliasListTurmaAdd;
@@ -60,7 +60,7 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
         aliasSpinnerCurso = findViewById(R.id.spinnerCursos);
         aliasSpinnerTurma = findViewById(R.id.spinnerTurmas);
 
-        aliasBtnSalvarCursos = findViewById(R.id.btnSalvarCursos);
+
         aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
         aliasBtnAdd = findViewById(R.id.btnAddCurso);
         aliasListTurmaAdd = findViewById(R.id.listTurmaAdd);
@@ -78,37 +78,7 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
         UID = UUID.randomUUID().toString();
 
 
-        aliasBtnSalvarCursos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Alerta!");
-                builder.setMessage("Deseja mesmo salvar esses cursos?");
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-
-                        Intent intent = new Intent(Activity_aluno.this, Activity_AlunoConfirmado.class);
-
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-
-
-                    }
-                });
-
-                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(getApplicationContext(), "Ação cancelada", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                alerta = builder.create();
-                alerta.show();
-
-            }
-        });
 
 
 
@@ -359,7 +329,6 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
 
-        Toast.makeText(adapterView.getContext(), "selecionou: " + item ,Toast.LENGTH_SHORT).show();
 
         carregarSpinnerTurma();
 
@@ -371,6 +340,26 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.listMsg:
+
+                Intent intent = new Intent(Activity_aluno.this, Activity_Mensagens.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
