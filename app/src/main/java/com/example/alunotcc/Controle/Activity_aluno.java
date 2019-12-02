@@ -1,8 +1,11 @@
 package com.example.alunotcc.Controle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -36,6 +39,9 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
     private Spinner aliasSpinnerCurso;
     private Spinner aliasSpinnerTurma;
     private List<Turma> turmas;
+    private List<Turma> turmasSpn;
+    private AlertDialog alerta;
+    private boolean saveUser;
     private String UID;
     private String token;
     private Button aliasBtnSeeTurmas;
@@ -63,11 +69,10 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
         cursos = new ArrayList<Curso>();
         turmas = new ArrayList<Turma>();
+        turmasSpn = new ArrayList<Turma>();
 
 
         carregarSpinnerCurso();
-
-
 
 
         UID = UUID.randomUUID().toString();
@@ -77,17 +82,86 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
             @Override
             public void onClick(View view) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Alerta!");
+                builder.setMessage("Deseja mesmo salvar esses cursos?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+
+                        Intent intent = new Intent(Activity_aluno.this, Activity_AlunoConfirmado.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+
+                    }
+                });
+
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Toast.makeText(getApplicationContext(), "Ação cancelada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alerta = builder.create();
+                alerta.show();
+
             }
         });
+
+
 
         aliasBtnSeeTurmas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 carregarListTurmas();
+
             }
         });
 
+        aliasListTurmaAdd.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Alerta!");
+                builder.setMessage("Deseja mesmo excluir essa turma");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+
+                        final Turma turma = turmas.get(position);
+                        Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
+
+
+                        FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos").document(curso.getId())
+                                .collection("turmas").document(turma.getId()).delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(Activity_aluno.this, "Turma excluida com sucesso!", Toast.LENGTH_SHORT).show();
+                                        carregarListTurmas();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Activity_aluno.this, "Erro ao deletar turma", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Toast.makeText(getApplicationContext(), "Ação cancelada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alerta = builder.create();
+                alerta.show();
+                return true;
+            }
+        });
 
         aliasBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +278,6 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
 
 
-                                // nao sei pq ele nao carrega a lista!!!
                                 String id = document.getId();
                                 String ano = document.getString("ano");
                                 String semestre = document.getString("semestre");
@@ -245,7 +318,7 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
                     @Override
                     public void onComplete(@NonNull Task <QuerySnapshot> task) {
             if (task.isSuccessful()) {
-                turmas.clear();
+                turmasSpn.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
 
 
@@ -264,11 +337,11 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
 
 
-                    turmas.add(u);
+                    turmasSpn.add(u);
                     Log.d(TAG, id);
 
                 }
-                final ArrayAdapter <Turma> adaptador = new ArrayAdapter <>(getBaseContext(), android.R.layout.simple_spinner_item, turmas);
+                final ArrayAdapter <Turma> adaptador = new ArrayAdapter <>(getBaseContext(), android.R.layout.simple_spinner_item, turmasSpn);
                 adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 aliasSpinnerTurma.setAdapter(adaptador);
                 adaptador.notifyDataSetChanged();
