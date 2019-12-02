@@ -166,9 +166,13 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
                         }
                     });
 
-                   // FirebaseFirestore.getInstance().collection("alunos").document(token).set(aluno)
 
-                    FirebaseFirestore.getInstance().collection("alunos").document(aluno.getToken()).collection("cursos")
+                   FirebaseFirestore.getInstance().collection("alunos").document(token).set(aluno);
+
+                   FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
+                           .document(curso.getId()).set(curso);
+
+                    FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
                             .document(curso.getId()).collection("turmas").document(turma.getId()).
                             set(turma)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

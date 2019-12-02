@@ -48,10 +48,10 @@ public class MeuAdapterMsg extends RecyclerView.Adapter implements View.OnClickL
         MeuViewHolderMsg holder = (MeuViewHolderMsg) viewHolder;
         final Mensagem mensagem = mensagens.get(position);
 
-        holder.mensagem.setText(mensagem.getMensagem());
-        holder.professor.setText(mensagem.getProfessor());
-        holder.turma.setText(mensagem.getTurmaMensagem());
-        holder.data.setText(mensagem.getDataMensagem());
+       // holder.mensagem.setText(mensagem.getMensagem());
+      //  holder.professor.setText(mensagem.getProfessor());
+       // holder.turma.setText(mensagem.getTurmaMensagem());
+      //  holder.data.setText(mensagem.getDataMensagem());
 
       /*  holder.setItemClickListener(new ItemClickListener() {
             @Override
