@@ -11,14 +11,19 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Controle.Activity_MsgCompleta" />
-        <activity android:name=".Controle.Activity_aluno">
+        <activity android:name=".Controle.Activity_Gerenciar_Turmas">
+
+        </activity>
+
+        <activity android:name=".Controle.Activity_Mensagens">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controle.Activity_Mensagens" />
+
+
 
         <service
             android:name=".Controle.FCMService"

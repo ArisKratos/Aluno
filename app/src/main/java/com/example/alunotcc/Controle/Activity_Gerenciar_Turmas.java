@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,7 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Activity_aluno extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
+
+
+public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
 
     private Spinner aliasSpinnerCurso;
     private Spinner aliasSpinnerTurma;
@@ -52,16 +53,27 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
     private String nomeCurso;
     private final static String TAG  = "Firelog";
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aluninho);
+        setContentView(R.layout.activity_gerenciar_turmas);
+
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
+        getSupportActionBar().setHomeButtonEnabled(true);      //Ativar o botão
+        getSupportActionBar().setTitle("Gerenciar turmas");     //Titulo para ser exibido na sua Action Bar em frente à seta
+
+
 
         aliasSpinnerCurso = findViewById(R.id.spinnerCursosConf);
         aliasSpinnerTurma = findViewById(R.id.spinnerTurmasConf);
 
-
-        aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
+//
+//        aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
         aliasBtnAdd = findViewById(R.id.btnSeeMensagens);
         aliasListTurmaAdd = findViewById(R.id.listTurmaAdd);
 
@@ -82,14 +94,14 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
 
 
-        aliasBtnSeeTurmas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                carregarListTurmas();
-
-            }
-        });
+//        aliasBtnSeeTurmas.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                carregarListTurmas();
+//
+//            }
+//        });
 
         aliasListTurmaAdd.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -110,13 +122,13 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Activity_aluno.this, "Turma excluida com sucesso!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Activity_Gerenciar_Turmas.this, "Turma excluida com sucesso!", Toast.LENGTH_SHORT).show();
                                         carregarListTurmas();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Activity_aluno.this, "Erro ao deletar turma", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_Gerenciar_Turmas.this, "Erro ao deletar turma", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -239,9 +251,6 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
       final Curso curso = (Curso) aliasSpinnerCurso.getSelectedItem();
 
-        Toast.makeText(this, "" + curso.getId(), Toast.LENGTH_SHORT).show();
-
-
         FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
                 .document(curso.getId()).collection("turmas")
                 .get()
@@ -337,6 +346,7 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
 
         carregarSpinnerTurma();
+        carregarListTurmas();
 
 
 
@@ -348,24 +358,17 @@ public class Activity_aluno extends AppCompatActivity implements  AdapterView.On
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) { //Botão adicional na ToolBar
+        switch (item.getItemId()) {
+            case android.R.id.home:  //ID do seu botão (gerado automaticamente pelo android, usando como está, deve funcionar
+                startActivity(new Intent(this, Activity_Mensagens.class));  //O efeito ao ser pressionado do botão (no caso abre a activity)
+                 //Método para matar a activity e não deixa-lá indexada na pilhagem
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+                break;
+            default:break;
+        }
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.listMsg:
-
-                Intent intent = new Intent(Activity_aluno.this, Activity_Mensagens.class);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
+
 

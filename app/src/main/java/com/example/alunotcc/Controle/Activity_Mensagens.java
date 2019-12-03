@@ -3,8 +3,10 @@ package com.example.alunotcc.Controle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,14 +21,12 @@ import com.example.alunotcc.Modelo.Turma;
 import com.example.alunotcc.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Activity_Mensagens extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
@@ -49,7 +49,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
 
 
-        aliasListMsg = findViewById(R.id.listMsg);
+        aliasListMsg = findViewById(R.id.gerencTurmas);
         aliasSpnCursos = findViewById(R.id.spinnerCursosConf);
         aliasSpnTurmas = findViewById(R.id.spinnerTurmasConf);
         aliasBtnSeeMsg = findViewById(R.id.btnSeeMensagens);
@@ -227,4 +227,26 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.gerencTurmas:
+
+                Intent intent = new Intent(Activity_Mensagens.this, Activity_Gerenciar_Turmas.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+
+
+
