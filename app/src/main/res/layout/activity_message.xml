@@ -10,10 +10,10 @@
     <Spinner
         android:id="@+id/spinnerTurmasConf"
         android:layout_width="150px"
-        android:layout_height="80px"
+        android:layout_height="37dp"
 
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/bg_spinner_rounded"
         android:popupBackground="@color/bgColor"
@@ -24,9 +24,9 @@
         android:id="@+id/btnSeeMensagens"
         android:layout_width="220px"
         android:layout_height="90px"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="41dp"
         android:background="@drawable/bg_button_rounded"
         android:text="Ver mensagens"
         android:textColor="@color/bgColor"
@@ -36,11 +36,11 @@
 
     <Spinner
         android:id="@+id/spinnerCursosConf"
-        android:layout_width="220px"
-        android:layout_height="80px"
+        android:layout_width="140dp"
+        android:layout_height="37dp"
 
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/bg_spinner_rounded"
         android:popupBackground="@color/bgColor"

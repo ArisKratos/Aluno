@@ -120,7 +120,9 @@ public class Mensagem {
     @NonNull
     @Override
     public String toString() {
-        return "De" + adminMsg + "\n Mensagem: " + mensagem + "\n para: " + turmaAnoMensagem +"/"+semestreMensagem;
+        return " De: " + adminMsg + "\n Mensagem: " + mensagem + "\n Para: " +
+                turmaAnoMensagem +"/"+semestreMensagem +"\n Data: " +
+                dataMensagem + " Hora: " +timeMassage;
     }
 }
 

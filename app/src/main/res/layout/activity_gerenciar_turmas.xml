@@ -9,7 +9,7 @@
     <Spinner
         android:id="@+id/spinnerTurmasConf"
         android:layout_width="150px"
-        android:layout_height="80px"
+        android:layout_height="37dp"
 
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
@@ -47,8 +47,8 @@
 
     <Spinner
         android:id="@+id/spinnerCursosConf"
-        android:layout_width="220px"
-        android:layout_height="80px"
+        android:layout_width="140dp"
+        android:layout_height="37dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
 

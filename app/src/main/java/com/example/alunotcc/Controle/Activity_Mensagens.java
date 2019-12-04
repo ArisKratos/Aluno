@@ -118,6 +118,8 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                      aliasListMsg.setAdapter(adaptador);
                     adaptador.notifyDataSetChanged();
 
+
+
                     if(mensagens.isEmpty()){
 
                         Toast.makeText(Activity_Mensagens.this, "não há mensagens nesta turma", Toast.LENGTH_SHORT).show();
