@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 
 public class Mensagem {
 
-        public Mensagem(String id, String idAdmin,String mensagem, String adminMsg, String turmaAnoMensagem, String semestreMensagem, String dataMensagem , long timeMessage,
+        public Mensagem(String id, String idRemetente,String mensagem, String remetenteMsg, String turmaAnoMensagem, String semestreMensagem, String dataMensagem , long timeMessage,
                         boolean paraTodos, boolean mudancaHorario){
 
             this.id = id;
-            this.idAdmin = idAdmin;
+            this.idRemetente = idRemetente;
             this.mensagem = mensagem;
-            this.adminMsg = adminMsg;
+            this.remetenteMsg = remetenteMsg;
             this.turmaAnoMensagem = turmaAnoMensagem;
             this.semestreMensagem = semestreMensagem;
             this.dataMensagem = dataMensagem;
@@ -20,11 +20,11 @@ public class Mensagem {
         }
 
         private String id;
-        private String idAdmin;
+        private String idRemetente;
         private long timeMassage;
         private String mensagem;
 
-        private String adminMsg;
+        private String remetenteMsg;
 
 
 
@@ -77,12 +77,12 @@ public class Mensagem {
             this.timeMassage = timeMassage;
         }
 
-        public String getAdminMsg() {
-            return adminMsg;
+        public String getRemetenteMsg() {
+            return remetenteMsg;
         }
 
-        public void setAdminMsg(String adminMsg) {
-            this.adminMsg = adminMsg;
+        public void setRemetenteMsg(String adminMsg) {
+            this.remetenteMsg = adminMsg;
         }
 
         public String getId() {
@@ -108,19 +108,19 @@ public class Mensagem {
             this.paraTodos = paraTodos;
         }
 
-        public String getIdAdmin() {
-            return idAdmin;
+        public String getIdRemetente() {
+            return idRemetente;
         }
 
-        public void setIdAdmin(String idAdmin) {
-            this.idAdmin = idAdmin;
+        public void setIdRemetente(String idAdmin) {
+            this.idRemetente = idAdmin;
         }
 
 
     @NonNull
     @Override
     public String toString() {
-        return " De: " + adminMsg + "\n Mensagem: " + mensagem + "\n Para: " +
+        return " De: " + remetenteMsg + "\n Mensagem: " + mensagem + "\n Para: " +
                 turmaAnoMensagem +"/"+semestreMensagem +"\n Data: " +
                 dataMensagem + " Hora: " +timeMassage;
     }

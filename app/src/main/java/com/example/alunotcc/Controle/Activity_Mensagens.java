@@ -22,12 +22,14 @@ import com.example.alunotcc.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 public class Activity_Mensagens extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
 
@@ -83,17 +85,18 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
 
         FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas").document(turma.getId())
-                .collection("mensagens").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .collection("mensagens").orderBy("timeMassage", Query.Direction.DESCENDING).limit(20).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                    mensagens.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        String admin = document.getString("adminMsg");
+                        String remetente = document.getString("remetenteMsg");
                         String data = document.getString("dataMensagem");
                         String id = document.getString("id");
-                        String idAdmin = document.getString("idAdmin");
+                        String idRemetente = document.getString("idRemetente");
                         String mensagem = document.getString("mensagem");
                         Boolean mudanca = document.getBoolean("mudancaHorario");
                         Boolean paraTodos = document.getBoolean("paraTodos");
@@ -103,7 +106,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
 
 
-                       Mensagem u = new Mensagem(id, idAdmin, mensagem, admin, turmaAno, semestre, data, time, paraTodos, mudanca);
+                       Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca);
 
 
                        mensagens.add(u);

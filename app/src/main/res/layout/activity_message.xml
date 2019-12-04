@@ -26,7 +26,7 @@
         android:layout_height="90px"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="42dp"
         android:background="@drawable/bg_button_rounded"
         android:text="Ver mensagens"
         android:textColor="@color/bgColor"
