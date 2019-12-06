@@ -4,15 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alunotcc.Modelo.Curso;
@@ -33,11 +37,12 @@ import java.util.concurrent.locks.Condition;
 
 public class Activity_Mensagens extends AppCompatActivity implements  AdapterView.OnItemSelectedListener {
 
-
     private ListView aliasListMsg;
     private Spinner aliasSpnCursos;
     private Spinner aliasSpnTurmas;
     private Button  aliasBtnSeeMsg;
+    private String aliasurlGrade;
+    private TextView aliaslinkBaixarGrade;
     private List<Turma> turmas;
     private List<Curso> cursos;
     private List<Mensagem> mensagens;
@@ -48,42 +53,81 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-
-
-
         aliasListMsg = findViewById(R.id.gerencTurmas);
         aliasSpnCursos = findViewById(R.id.spinnerCursosConf);
         aliasSpnTurmas = findViewById(R.id.spinnerTurmasConf);
         aliasBtnSeeMsg = findViewById(R.id.btnSeeMensagens);
+        aliaslinkBaixarGrade = findViewById(R.id.linkBaixarGrade);
 
         carregarSpnCurso();
 
         cursos = new ArrayList<>();
         mensagens = new ArrayList<>();
         turmas = new ArrayList<>();
-
-
         aliasSpnCursos.setOnItemSelectedListener(this);
 
         aliasBtnSeeMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 carregarMsg();
-
-
-
             }
         });
+
+        aliaslinkBaixarGrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
+                final Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
+
+                FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
+                        .collection("turmas").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getId().equals(turma.getId())) {
+
+                                    String id = document.getString("id");
+                                    String urlGrade = document.getString("urlGrade");
+
+                                    Turma u = new Turma();
+
+                                    u.setId(id);
+                                    u.setUrlGrade(urlGrade);
+
+                                    aliasurlGrade = urlGrade;
+
+                                }
+                            }
+                            if(aliasurlGrade.isEmpty()){
+
+                                Toast.makeText(Activity_Mensagens.this, "Essa turma não possui grade de horários", Toast.LENGTH_LONG).show();
+
+                            }
+                            else{
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aliasurlGrade));
+                                startActivity(browserIntent);
+                            }
+
+
+                        } else {
+
+                        }
+                    }
+                });
+            }
+        });
+
+
     }
 
 
     public void carregarMsg(){
+
         Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
         Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
-
-
         FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas").document(turma.getId())
                 .collection("mensagens").orderBy("timeMassage", Query.Direction.DESCENDING).limit(20).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -105,17 +149,9 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         String turmaAno = document.getString("turmaAnoMensagem");
                         String hora = document.getString("hora_atual");
 
-
-
                        Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca, hora);
 
-
                        mensagens.add(u);
-
-
-
-
-
 
                     }
 
@@ -123,23 +159,16 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                      aliasListMsg.setAdapter(adaptador);
                     adaptador.notifyDataSetChanged();
 
-
-
                     if(mensagens.isEmpty()){
 
                         Toast.makeText(Activity_Mensagens.this, "não há mensagens nesta turma", Toast.LENGTH_SHORT).show();
                     }
-
-
                 } else {
 
                 }
             }
         });
-
     }
-
-
 
     public void carregarSpnCurso(){
         token = FirebaseInstanceId.getInstance().getToken();
@@ -161,7 +190,6 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
                                 cursos.add(u);
 
-
                             }
 
                             final ArrayAdapter<Curso> adaptador = new ArrayAdapter <>(getBaseContext(), android.R.layout.simple_spinner_item, cursos);
@@ -174,7 +202,6 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         }
                     }
                 });
-
     }
 
     public void carregarSpnTurmas(){
@@ -196,7 +223,6 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                                 String semestre = document.getString("semestre");
 
 
-
                                 Turma u = new Turma();
                                 u.setId(document.getId());
                                 u.setAno(ano);
@@ -204,7 +230,6 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                                 u.setCurso(nomeCurso);
 
                                 turmas.add(u);
-
 
                             }
 
@@ -218,18 +243,14 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         }
                     }
                 });
-
     }
-
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
         carregarSpnTurmas();
 
-    }
 
+    }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
