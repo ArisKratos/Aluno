@@ -103,10 +103,11 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         String semestre = document.getString("semestreMensagem");
                         long time = document.getLong("timeMassage");
                         String turmaAno = document.getString("turmaAnoMensagem");
+                        String hora = document.getString("hora_atual");
 
 
 
-                       Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca);
+                       Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca, hora);
 
 
                        mensagens.add(u);
@@ -117,6 +118,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
 
                     }
+
                      ArrayAdapter <Mensagem> adaptador = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, mensagens);
                      aliasListMsg.setAdapter(adaptador);
                     adaptador.notifyDataSetChanged();
