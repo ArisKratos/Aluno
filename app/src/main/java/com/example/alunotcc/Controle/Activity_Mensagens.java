@@ -47,6 +47,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
     private List<Curso> cursos;
     private List<Mensagem> mensagens;
     private String token;
+    private String nomeCurso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
 
     public void carregarMsg(){
 
-        Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
+        final Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
         Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
         FirebaseFirestore.getInstance().collection("cursos").document(curso.getId()).collection("turmas").document(turma.getId())
                 .collection("mensagens").orderBy("timeMassage", Query.Direction.DESCENDING).limit(20).get()
@@ -163,8 +164,9 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         long time = document.getLong("timeMassage");
                         String turmaAno = document.getString("turmaAnoMensagem");
                         String hora = document.getString("hora_atual");
+                        String curso = document.getString("cursoMgs");
 
-                       Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca, hora);
+                       Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca, hora, curso);
 
                        mensagens.add(u);
 
