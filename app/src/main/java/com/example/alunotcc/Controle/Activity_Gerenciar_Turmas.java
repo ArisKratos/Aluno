@@ -108,7 +108,7 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Alerta!");
-                builder.setMessage("Deseja mesmo excluir essa turma");
+                builder.setMessage("Deseja mesmo excluir essa turma?");
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
 
@@ -169,7 +169,7 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
 
                                     // Log.i ("Teste \n", documentReference.getId());
 
-                                    Toast.makeText(getApplicationContext(), "Você se registrou com sucesso", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Você se registrou com sucesso!", Toast.LENGTH_LONG).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override

@@ -69,7 +69,15 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
         aliasBtnSeeMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                carregarMsg();
+
+
+                if(aliasSpnCursos.getSelectedItem() == null){
+                    Toast.makeText(Activity_Mensagens.this, "Cadastra-se em alguma turma para receber mensagens!", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    carregarMsg();
+                }
+
             }
         });
 
@@ -80,7 +88,12 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                 Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
                 final Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
 
-                FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
+                if(aliasSpnCursos.getSelectedItem() == null || aliasSpnTurmas == null){
+                    Toast.makeText(Activity_Mensagens.this, "Cadastra-se em alguma turma para baixar a grade de horários correspondente!", Toast.LENGTH_LONG).show();
+                }
+
+                else{
+                    FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
                         .collection("turmas").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -117,6 +130,8 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         }
                     }
                 });
+            }
+
             }
         });
 
@@ -169,38 +184,49 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
             }
         });
     }
+
     public void carregarSpnCurso(){
         token = FirebaseInstanceId.getInstance().getToken();
-        FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            cursos.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                String nomeCurso = document.getString("curso");
+        try {
 
 
-                                Curso u = new Curso();
-                                u.setId(document.getId());
-                                u.setCurso(nomeCurso);
+            FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task <QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                cursos.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                cursos.add(u);
+                                    String nomeCurso = document.getString("curso");
+
+
+                                    Curso u = new Curso();
+                                    u.setId(document.getId());
+                                    u.setCurso(nomeCurso);
+
+                                    cursos.add(u);
+
+                                }
+
+                                final ArrayAdapter <Curso> adaptador = new ArrayAdapter <>(getBaseContext(), android.R.layout.simple_spinner_item, cursos);
+                                adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                aliasSpnCursos.setAdapter(adaptador);
+                                adaptador.notifyDataSetChanged();
+
+                            } else {
+
+
+                                Toast.makeText(Activity_Mensagens.this, "deu merda", Toast.LENGTH_SHORT).show();
 
                             }
-
-                            final ArrayAdapter<Curso> adaptador = new ArrayAdapter <>(getBaseContext(), android.R.layout.simple_spinner_item, cursos);
-                            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            aliasSpnCursos.setAdapter(adaptador);
-                            adaptador.notifyDataSetChanged();
-
-                        } else {
-
                         }
-                    }
-                });
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void carregarSpnTurmas(){
