@@ -169,7 +169,6 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
             }
         });
     }
-
     public void carregarSpnCurso(){
         token = FirebaseInstanceId.getInstance().getToken();
         FirebaseFirestore.getInstance().collection("alunos").document(token).collection("cursos")
