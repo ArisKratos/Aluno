@@ -164,7 +164,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
                         long time = document.getLong("timeMassage");
                         String turmaAno = document.getString("turmaAnoMensagem");
                         String hora = document.getString("hora_atual");
-                        String curso = document.getString("cursoMgs");
+                        String curso = document.getString("cursoMsg");
 
                        Mensagem u = new Mensagem(id, idRemetente, mensagem, remetente, turmaAno, semestre, data, time, paraTodos, mudanca, hora, curso);
 

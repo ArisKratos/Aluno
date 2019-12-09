@@ -140,7 +140,7 @@ public class Mensagem {
     @Override
     public String toString() {
         return  "--> " + mensagem + "\n\n Para: " +
-                turmaAnoMensagem +"/"+semestreMensagem +"\n Data: " +
+                turmaAnoMensagem +"/"+semestreMensagem + " - "+cursoMsg +"\n Data: " +
                 dataMensagem + "/Hora: " + hora_atual + "\n De: " + remetenteMsg;
     }
 }
