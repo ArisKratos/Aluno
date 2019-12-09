@@ -93,16 +93,6 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
 
 
 
-
-//        aliasBtnSeeTurmas.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                carregarListTurmas();
-//
-//            }
-//        });
-
         aliasListTurmaAdd.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {

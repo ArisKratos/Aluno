@@ -4,9 +4,6 @@ public class Aluno {
 
     private String id;
     private String token;
-
-
-
     private  boolean logado;
 
     public String getId() {

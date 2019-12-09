@@ -1,8 +1,10 @@
 package com.example.alunotcc.Controle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
     private Button  aliasBtnSeeMsg;
     private String aliasurlGrade;
     private TextView aliaslinkBaixarGrade;
+    private AlertDialog alerta;
     private List<Turma> turmas;
     private List<Curso> cursos;
     private List<Mensagem> mensagens;
@@ -72,7 +75,7 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
             public void onClick(View view) {
 
 
-                if(aliasSpnCursos.getSelectedItem() == null){
+                if(aliasSpnCursos.getSelectedItem() == null || aliasSpnTurmas.getSelectedItem() == null){
                     Toast.makeText(Activity_Mensagens.this, "Cadastra-se em alguma turma para receber mensagens!", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -86,55 +89,75 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
             @Override
             public void onClick(View view) {
 
-                Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
-                final Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
 
-                if(aliasSpnCursos.getSelectedItem() == null || aliasSpnTurmas == null){
+                if (aliasSpnCursos.getSelectedItem() == null || aliasSpnTurmas.getSelectedItem() == null) {
                     Toast.makeText(Activity_Mensagens.this, "Cadastra-se em alguma turma para baixar a grade de horários correspondente!", Toast.LENGTH_LONG).show();
                 }
+                else {
 
-                else{
-                    FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
-                        .collection("turmas").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                final Curso curso = (Curso) aliasSpnCursos.getSelectedItem();
+                final Turma turma = (Turma) aliasSpnTurmas.getSelectedItem();
 
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getId().equals(turma.getId())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Alerta!");
+                    builder.setMessage("Deseja mesmo baixar a grade de " + turma.getAno() + "/" + turma.getSemestre() + "-" + curso.getCurso() + "?");
+                    builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
 
-                                    String id = document.getString("id");
-                                    String urlGrade = document.getString("urlGrade");
 
-                                    Turma u = new Turma();
+                            FirebaseFirestore.getInstance().collection("cursos").document(curso.getId())
+                                    .collection("turmas").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    u.setId(id);
-                                    u.setUrlGrade(urlGrade);
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (document.getId().equals(turma.getId())) {
 
-                                    aliasurlGrade = urlGrade;
+                                                String id = document.getString("id");
+                                                String urlGrade = document.getString("urlGrade");
 
+                                                Turma u = new Turma();
+
+                                                u.setId(id);
+                                                u.setUrlGrade(urlGrade);
+
+                                                aliasurlGrade = urlGrade;
+
+                                            }
+                                        }
+                                        if (aliasurlGrade.isEmpty()) {
+
+                                            Toast.makeText(Activity_Mensagens.this, "Essa turma não possui grade de horários", Toast.LENGTH_LONG).show();
+
+                                        } else {
+                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aliasurlGrade));
+                                            startActivity(browserIntent);
+                                        }
+
+                                    } else {
+
+                                    }
                                 }
-                            }
-                            if(aliasurlGrade.isEmpty()){
+                            });
 
-                                Toast.makeText(Activity_Mensagens.this, "Essa turma não possui grade de horários", Toast.LENGTH_LONG).show();
-
-                            }
-                            else{
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aliasurlGrade));
-                                startActivity(browserIntent);
-                            }
-
-
-                        } else {
 
                         }
-                    }
-                });
-            }
 
+                    });
+
+                    builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            Toast.makeText(getApplicationContext(), "Ação cancelada", Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+                    alerta = builder.create();
+                    alerta.show();
+                }
             }
         });
+
 
 
     }
