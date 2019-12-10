@@ -70,6 +70,17 @@ public class Activity_Mensagens extends AppCompatActivity implements  AdapterVie
         turmas = new ArrayList<>();
         aliasSpnCursos.setOnItemSelectedListener(this);
 
+
+        aliasListMsg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView <?> adapterView, View view, int i, long l) {
+
+
+            }
+        });
+
+
+
         aliasBtnSeeMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

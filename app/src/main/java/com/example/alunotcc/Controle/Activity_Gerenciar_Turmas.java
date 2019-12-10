@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alunotcc.Modelo.Aluno;
@@ -50,6 +51,7 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
     private Button aliasBtnAdd;
     private List<Curso> cursos;
     private ListView aliasListTurmaAdd;
+    private TextView aliasTextAuxCurso;
     private String nomeCurso;
     private final static String TAG  = "Firelog";
 
@@ -71,9 +73,9 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
 
         aliasSpinnerCurso = findViewById(R.id.spinnerCursosConf);
         aliasSpinnerTurma = findViewById(R.id.spinnerTurmasConf);
+        aliasTextAuxCurso = findViewById(R.id.textAuxCursos);
 
-//
-//        aliasBtnSeeTurmas = findViewById(R.id.editSeeTurmas);
+
         aliasBtnAdd = findViewById(R.id.btnSeeMensagens);
         aliasListTurmaAdd = findViewById(R.id.listTurmaAdd);
 
@@ -333,6 +335,9 @@ public class Activity_Gerenciar_Turmas extends AppCompatActivity implements  Ada
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
+
+
+        aliasTextAuxCurso.setText("Turmas " + aliasSpinnerCurso.getSelectedItem().toString() +" que você participa");
 
 
         carregarSpinnerTurma();
